@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aktivitas;
+use App\Models\Komponen;
+use App\Models\Kro;
 use App\Models\Program;
+use App\Models\Ro;
+use App\Models\Subkomponen;
 use Illuminate\Http\Request;
 
 class PokController extends Controller
@@ -23,9 +28,32 @@ class PokController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type, $id)
     {
-        //
+        $title = '';
+        $parent = null;
+        if ($type == 'program') {
+            $title = 'Tambah Aktivitas';
+            $parent = Program::find($id);
+        } else if ($type == 'aktivitas') {
+            $title = 'Tambah KRO';
+            $parent = Aktivitas::find($id);
+        } else if ($type == 'kro') {
+            $title = 'Tambah RO';
+            $parent = Kro::find($id);
+        } else if ($type == 'ro') {
+            $title = 'Tambah Komponen';
+            $parent = Ro::find($id);
+        } else if ($type == 'komponen') {
+            $title = 'Tambah Sub Komponen';
+            $parent = Komponen::find($id);
+        } else if ($type == 'subkomponen') {
+            $title = 'Tambah Detil';
+            $parent = Subkomponen::find($id);
+        } else {
+            abort(404);
+        }
+        return view('pok.create', compact('title', 'type', 'parent'));
     }
 
     /**
@@ -56,9 +84,9 @@ class PokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($type, $id)
     {
-        //
+        return $type . ' ' . $id;
     }
 
     /**

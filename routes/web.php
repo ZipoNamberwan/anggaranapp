@@ -21,6 +21,9 @@ Route::get('/rpd', [App\Http\Controllers\LihatRpd::class, 'index']);
 
 // indra route
 Route::get('/pok', [App\Http\Controllers\PokController::class, 'index']);
+Route::get('/pok/addchild/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'create']);
+Route::get('/pok/edit/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'edit']);
+Route::get('/pok/delete/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'delete']);
 
 
 Route::get('/dashboard', function () {
