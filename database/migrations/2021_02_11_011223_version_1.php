@@ -42,7 +42,7 @@ class Version1 extends Migration
             $table->bigInteger('jumlah');
             $table->integer('posisi');
             $table->string('program_id');
-            $table->foreign('program_id')->references('kode')->on('program');
+            $table->foreign('program_id')->references('kode')->on('program')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -53,7 +53,7 @@ class Version1 extends Migration
             $table->bigInteger('jumlah');
             $table->integer('posisi');
             $table->string('aktivitas_id');
-            $table->foreign('aktivitas_id')->references('kode')->on('aktivitas');
+            $table->foreign('aktivitas_id')->references('kode')->on('aktivitas')->onUpdate('cascade');
             $table->integer('volume')->nullable();
             $table->string('satuan')->nullable();
             $table->timestamps();
@@ -66,7 +66,7 @@ class Version1 extends Migration
             $table->bigInteger('jumlah');
             $table->integer('posisi');
             $table->string('kro_id');
-            $table->foreign('kro_id')->references('kode')->on('kro');
+            $table->foreign('kro_id')->references('kode')->on('kro')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -77,7 +77,7 @@ class Version1 extends Migration
             $table->bigInteger('jumlah');
             $table->integer('posisi');
             $table->string('ro_id');
-            $table->foreign('ro_id')->references('kode')->on('ro');
+            $table->foreign('ro_id')->references('kode')->on('ro')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -88,7 +88,7 @@ class Version1 extends Migration
             $table->bigInteger('jumlah');
             $table->integer('posisi');
             $table->string('komponen_id');
-            $table->foreign('komponen_id')->references('kode')->on('komponen');
+            $table->foreign('komponen_id')->references('kode')->on('komponen')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -101,7 +101,7 @@ class Version1 extends Migration
             $table->integer('volume');
             $table->string('satuan');
             $table->string('subkomponen_id');
-            $table->foreign('subkomponen_id')->references('kode')->on('subkomponen');
+            $table->foreign('subkomponen_id')->references('kode')->on('subkomponen')->onUpdate('cascade');
             $table->foreignId('jenis_belanja_id')->constrained('jenis_belanja');
             $table->foreignId('fungsi_id')->constrained('fungsi');
 
