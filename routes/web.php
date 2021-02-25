@@ -19,13 +19,15 @@ Route::get('/', function () {
 
 Route::get('/rpd', [App\Http\Controllers\LihatRpd::class, 'index']);
 
-// indra route
+// -- indra route
 Route::get('/pok', [App\Http\Controllers\PokController::class, 'index']);
 Route::get('/pok/addchild/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'create']);
 Route::get('/pok/edit/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'edit']);
-Route::get('/pok/delete/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'delete']);
+Route::delete('/pok/delete/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'destroy']);
 Route::post('/pok', [App\Http\Controllers\PokController::class, 'store']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
+
+// -- sampai sini
 
 Route::get('/dashboard', function () {
     return view('blank');

@@ -11,6 +11,7 @@ use App\Models\Kro;
 use App\Models\Program;
 use App\Models\Ro;
 use App\Models\Subkomponen;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -325,8 +326,45 @@ class PokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($type, $id)
     {
-        //
+        $typename = null;
+        $pokitemname = null;
+        try {
+            if ($type == 'program') {
+                $typename = "Program";
+                $pokitemname = Program::find($id)->deskripsi;
+                Program::find($id)->delete();
+            } else if ($type == 'aktivitas') {
+                $typename = "Aktivitas";
+                $pokitemname = Aktivitas::find($id)->deskripsi;
+                Aktivitas::find($id)->delete();
+            } else if ($type == 'kro') {
+                $typename = "KRO";
+                $pokitemname = Kro::find($id)->deskripsi;
+                Kro::find($id)->delete();
+            } else if ($type == 'ro') {
+                $typename = "RO";
+                $pokitemname = Ro::find($id)->deskripsi;
+                Ro::find($id)->delete();
+            } else if ($type == 'komponen') {
+                $typename = "Komponen";
+                $pokitemname = Komponen::find($id)->deskripsi;
+                Komponen::find($id)->delete();
+            } else if ($type == 'subkomponen') {
+                $typename = "Sub Komponen";
+                $pokitemname = Subkomponen::find($id)->deskripsi;
+                Subkomponen::find($id)->delete();
+            } else if ($type == 'detil') {
+                $typename = "Detil";
+                $pokitemname = Detil::find($id)->deskripsi;
+                Detil::find($id)->delete();
+            } else {
+                abort(404);
+            }
+            return redirect('/pok')->with('success-delete', $typename . ' ' . $pokitemname . ' telah dihapus!');
+        } catch (Exception $e) {
+            return redirect('/pok')->with('error-delete', $typename . ' ' . $pokitemname . ' gagal dihapus! Cek apakah item tersebut punya child atau tidak');
+        }
     }
 }

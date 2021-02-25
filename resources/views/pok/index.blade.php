@@ -36,7 +36,12 @@
                 <div class="panel-wrapper collapse in">
                     @if(session('success-create'))
                     <div class="alert alert-success alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{session('success-create')}} 
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{session('success-create')}}
+                    </div>
+                    @endif
+                    @if(session('success-delete'))
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{session('success-delete')}}
                     </div>
                     @endif
                     <div class="panel-body">
@@ -52,11 +57,19 @@
                             <span class="btn-inner--icon"><i class="fa fa-plus-circle"></i></span>
                             <span class="btn-inner--text">Hapus</span>
                         </a></td> -->
-                        <form id="form-update" action="#" method="GET">
-                            <button onclick="onadd()" class="btn btn-success btn-icon left-icon" id="add-button" type="submit" disabled><i class="fa fa-plus"></i>Tambah Child</button>
-                            <button onclick="onedit()" class="btn btn-info btn-icon left-icon" id="edit-button" type="button" disabled><i class="fa fa-pencil"></i>Ubah</button>
-                            <button onclick="ondelete()" class="btn btn-danger btn-icon left-icon" id="delete-button" type="button" disabled><i class="fa fa-trash"></i>Hapus</button>
-                        </form>
+                        <div style="display: flex;">
+                            <form id="form-add" action="#" method="GET" class="mr-10">
+                                <button onclick="onadd()" class="btn btn-success btn-icon left-icon" id="add-button" type="button" disabled><i class="fa fa-plus"></i>Tambah Child</button>
+                            </form>
+                            <form id="form-edit" action="#" method="GET" class="mr-10">
+                                <button onclick="onedit()" class="btn btn-info btn-icon left-icon" id="edit-button" type="button" disabled><i class="fa fa-pencil"></i>Ubah</button>
+                            </form>
+                            <form id="form-delete" action="#" method="POST" class="mr-10">
+                                @csrf
+                                @method('delete')
+                                <button onclick="ondelete()" class="btn btn-danger btn-icon left-icon d-inline" id="delete-button" type="button" disabled><i class="fa fa-trash"></i>Hapus</button>
+                            </form>
+                        </div>
                         <div class="table-wrap">
                             <div class="table-responsive">
                                 <table id="datatable-id" class="table table-hover display">
@@ -204,10 +217,15 @@
 
 @section('optionaljs')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/af-2.3.5/b-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.8/kt-2.6.1/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
     var urlidentifier = '';
     var baseidentifier = '';
     var rowselected;
+    var kodeselected = '';
+    var nameselected = '';
+    var typeselected = '';
 
     var table = $('#datatable-id').DataTable({
         "responsive": true,
@@ -222,6 +240,64 @@
             //console.log(row);
             //$(row).css("background-color", "red");
         },
+        "columns": [{
+                "responsivePriority": 10,
+            }, {
+                "responsivePriority": 9,
+            }, {
+                "responsivePriority": 8,
+            }, {
+                "responsivePriority": 3,
+                "width": "10%",
+                "orderable": false
+            }, {
+                "responsivePriority": 1,
+                "width": "10%",
+                "orderable": false
+            }, {
+                "responsivePriority": 2,
+                "width": "40%",
+                "orderable": false
+            }, {
+                "responsivePriority": 5,
+                "width": "10%",
+                "orderable": false
+            },
+            {
+                "responsivePriority": 6,
+                "width": "10%",
+                "orderable": false
+            }, {
+                "responsivePriority": 7,
+                "width": "10%",
+                "orderable": false,
+                "render": function(data, type, row) {
+                    if (type === 'display') {
+                        if (row[9] & row[6]) {
+                            var data = Math.floor(row[9] / row[6]);
+                            var parts = data.toString().split(".");
+                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                            return "Rp " + parts.join(".");
+                        }
+                    }
+                    return data;
+                }
+            },
+            {
+                "responsivePriority": 4,
+                "width": "10%",
+                "render": function(data, type, row) {
+                    if (type === 'display') {
+                        if (data) {
+                            var parts = data.toString().split(".");
+                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                            return "Rp " + parts.join(".");
+                        }
+                    }
+                    return data;
+                }
+            }
+        ],
         "columnDefs": [{
                 "targets": [0],
                 "visible": false,
@@ -251,7 +327,9 @@
         rowselected = dt.row({
             selected: true
         }).index();
-        console.log(rowselected);
+        console.log(dt.row({
+            selected: true
+        }).data());
         var count = table.rows({
             selected: true
         }).count();
@@ -260,6 +338,15 @@
         }).data()[0] + '/id/' + dt.row({
             selected: true
         }).data()[1];
+        kodeselected = dt.row({
+            selected: true
+        }).data()[4];
+        nameselected = dt.row({
+            selected: true
+        }).data()[5];
+        typeselected = dt.row({
+            selected: true
+        }).data()[3];
 
         if (count > 0) {
             addButton.disabled = false;
@@ -291,25 +378,51 @@
         event.preventDefault();
         baseidentifier = '/pok/addchild/';
         //console.log(baseidentifier + urlidentifier);
-        $('#form-update').attr('action', baseidentifier + urlidentifier);
-        $('#form-update').submit();
+        $('#form-add').attr('action', baseidentifier + urlidentifier);
+        $('#form-add').submit();
     }
 
     function onedit() {
         event.preventDefault();
         baseidentifier = '/pok/edit/';
         //console.log(baseidentifier + urlidentifier);
-        $('#form-update').attr('action', baseidentifier + urlidentifier);
-        $('#form-update').submit();
+        $('#form-edit').attr('action', baseidentifier + urlidentifier);
+        $('#form-edit').submit();
     }
 
     function ondelete() {
         event.preventDefault();
         baseidentifier = '/pok/delete/';
         //console.log(baseidentifier + urlidentifier);
-        $('#form-update').attr('action', baseidentifier + urlidentifier);
-        $('#form-update').submit();
+        $('#form-delete').attr('action', baseidentifier + urlidentifier);
+        Swal.fire({
+            title: 'Yakin Hapus ' + typeselected + ' Ini?',
+            text: kodeselected + ' ' + nameselected,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#form-delete').submit();
+            }
+        })
     }
 </script>
+
+@if (session('error-delete'))
+<script>
+    $(document).ready(function() {
+        Swal.fire({
+            title: 'Gagal Hapus',
+            text: "{{ session('error-delete') }}",
+            icon: 'error',
+            confirmButtonText: 'OK',
+        })
+    });
+</script>
+@endif
 
 @endsection
