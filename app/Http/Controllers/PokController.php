@@ -367,4 +367,26 @@ class PokController extends Controller
             return redirect('/pok')->with('error-delete', $typename . ' ' . $pokitemname . ' gagal dihapus! Cek apakah item tersebut punya child atau tidak');
         }
     }
+
+    public function changePosition($type, $id)
+    {
+        if ($type == 'program') {
+            $pokitems = Aktivitas::where(['program_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'aktivitas') {
+            $pokitems = Kro::where(['aktivitas_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'kro') {
+            $pokitems = Ro::where(['kro_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'ro') {
+            $pokitems = Komponen::where(['ro_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'komponen') {
+            $pokitems = Subkomponen::where(['komponen_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'subkomponen') {
+            $pokitems = Detil::where(['subkomponen_id' => $id])->get()->sortBy('posisi');
+        } else if ($type == 'root') {
+            $pokitems = Program::all()->sortBy('posisi');
+            return view('pok.changepos-program', compact(['pokitems']));
+        } else {
+            abort(404);
+        }
+    }
 }
