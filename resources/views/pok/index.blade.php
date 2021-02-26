@@ -9,16 +9,13 @@
 
 @section('container')
 
-<div class="container">
-
     <!-- container -->
     <div class="row heading-bg">
         <!-- Breadcrumb -->
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
                 <li><a href="index.html">Dashboard</a></li>
-                <li><a href="#"><span>speciality pages</span></a></li>
-                <li class="active"><span>blank page</span></li>
+                <li><a href="#"><span>Master POK</span></a></li>
             </ol>
         </div>
         <!-- /Breadcrumb -->
@@ -77,6 +74,8 @@
                                             <th width="10%">Satuan</th>
                                             <th width="10%">Harga Satuan</th>
                                             <th width="10%">Jumlah</th>
+                                            <th width="10%">Fungsi</th>
+                                            <th width="10%">Jenis Belanja</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,104 +94,116 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($programs as $program)
+                                        @foreach($pokitems as $pokitem)
+                                        @if ($pokitem->jenis == 'program')
                                         <tr>
-                                            <td>program</td>
-                                            <td>{{$program->kode}}</td>
+                                            <td>{{$pokitem->jenis}}</td>
+                                            <td>{{$pokitem->kode}}</td>
                                             <td></td>
                                             <td style="background-color: #C4D79B">Program</td>
-                                            <td>{{$program->kode}}</td>
-                                            <td>{{$program->deskripsi}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$program->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($program->aktivitas as $aktivitas)
+                                        @elseif($pokitem->jenis == 'aktivitas')
                                         <tr>
-                                            <td>aktivitas</td>
-                                            <td>{{$aktivitas->kode}}</td>
-                                            <td>{{$program->kode}}</td>
+                                            <td>{{$pokitem->jenis}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->program->kode}}</td>
                                             <td style="background-color: #92CDDC">Aktivitas</td>
-                                            <td style="padding: 0px 0px 0px 30px;">{{$aktivitas->kode}}</td>
-                                            <td>{{$aktivitas->deskripsi}}</td>
+                                            <td style="padding: 0px 0px 0px 30px;">{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$aktivitas->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($aktivitas->kro as $kro)
+                                        @elseif($pokitem->jenis == 'kro')
                                         <tr>
                                             <td>kro</td>
-                                            <td>{{$kro->kode}}</td>
-                                            <td>{{$aktivitas->kode}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->aktivitas->kode}}</td>
                                             <td style="background-color: #E6B8B7">KRO</td>
-                                            <td style="padding: 0px 0px 0px 60px;">{{$kro->kode}}</td>
-                                            <td>{{$kro->deskripsi}}</td>
-                                            <td>{{$kro->volume}}</td>
-                                            <td>{{$kro->satuan}}</td>
+                                            <td style="padding: 0px 0px 0px 60px;">{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
+                                            <td>{{$pokitem->volume}}</td>
+                                            <td>{{$pokitem->satuan}}</td>
                                             <td></td>
-                                            <td>{{$kro->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($kro->ro as $ro)
+                                        @elseif($pokitem->jenis == 'ro')
                                         <tr>
                                             <td>ro</td>
-                                            <td>{{$ro->kode}}</td>
-                                            <td>{{$kro->kode}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->kro->kode}}</td>
                                             <td style="background-color: #F9DB6F">RO</td>
-                                            <td style="padding: 0px 0px 0px 90px;">{{$ro->kode}}</td>
-                                            <td>{{$ro->deskripsi}}</td>
+                                            <td style="padding: 0px 0px 0px 90px;">{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$ro->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($ro->komponen as $komponen)
+                                        @elseif($pokitem->jenis == 'komponen')
                                         <tr>
                                             <td>komponen</td>
-                                            <td>{{$komponen->kode}}</td>
-                                            <td>{{$ro->kode}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->ro->kode}}</td>
                                             <td>Komponen</td>
-                                            <td style="padding: 0px 0px 0px 120px;">{{$komponen->kode}}</td>
-                                            <td>{{$komponen->deskripsi}}</td>
+                                            <td style="padding: 0px 0px 0px 120px;">{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$komponen->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($komponen->subkomponen as $subkomponen)
+                                        @elseif($pokitem->jenis == 'subkomponen')
                                         <tr>
                                             <td>subkomponen</td>
-                                            <td>{{$subkomponen->kode}}</td>
-                                            <td>{{$komponen->kode}}</td>
+                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->komponen->kode}}</td>
                                             <td>Sub Komponen</td>
-                                            <td style="padding: 0px 0px 0px 150px;">{{$subkomponen->kode}}</td>
-                                            <td>{{$subkomponen->deskripsi}}</td>
+                                            <td style="padding: 0px 0px 0px 150px;">{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{$subkomponen->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @foreach($subkomponen->detil as $detil)
+                                        @elseif($pokitem->jenis == 'detil')
                                         <tr>
                                             <td>detil</td>
-                                            <td>{{$detil->id}}</td>
-                                            <td>{{$subkomponen->kode}}</td>
+                                            <td>{{$pokitem->id}}</td>
+                                            <td>{{$pokitem->subkomponen->kode}}</td>
                                             <td>Detil</td>
                                             <td></td>
-                                            <td>{{$detil->deskripsi}}</td>
-                                            <td>{{$detil->volume}}</td>
-                                            <td>{{$detil->satuan}}</td>
+                                            <td>{{$pokitem->deskripsi}}</td>
+                                            <td>{{$pokitem->volume}}</td>
+                                            <td>{{$pokitem->satuan}}</td>
                                             <td></td>
-                                            <td>{{$detil->jumlah}}</td>
+                                            <td>{{$pokitem->jumlah}}</td>
+                                            <td>{{$pokitem->fungsi->nama}}</td>
+                                            <td>{{$pokitem->jenisbelanja->nama}}</td>
                                         </tr>
-                                        @endforeach
-                                        @endforeach
-                                        @endforeach
-                                        @endforeach
-                                        @endforeach
-                                        @endforeach
+                                        @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -203,7 +214,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 
@@ -324,7 +334,7 @@
                     }
                     return data;
                 }
-            },
+            }, 
             {
                 "responsivePriority": 4,
                 "width": "10%",
@@ -338,7 +348,17 @@
                     }
                     return data;
                 }
-            }
+            },
+            {
+                "responsivePriority": 11,
+                "width": "10%",
+                "orderable": false
+            },
+            {
+                "responsivePriority": 12,
+                "width": "10%",
+                "orderable": false
+            }, 
         ],
         "columnDefs": [{
                 "targets": [0],

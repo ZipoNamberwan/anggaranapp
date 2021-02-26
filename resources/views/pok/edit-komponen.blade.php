@@ -40,19 +40,19 @@
                             @method('patch')
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Program</label>
-                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->aktivitas->program->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->aktivitas->program->kode}} {{$pokitem->ro->kro->aktivitas->program->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Aktivitas</label>
-                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->aktivitas->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->aktivitas->kode}} {{$pokitem->ro->kro->aktivitas->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">KRO</label>
-                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$pokitem->ro->kro->kode}} {{$pokitem->ro->kro->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">RO</label>
-                                <input type="text" class="form-control" value="{{$pokitem->ro->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$pokitem->ro->kode}} {{$pokitem->ro->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Kode Komponen</label>

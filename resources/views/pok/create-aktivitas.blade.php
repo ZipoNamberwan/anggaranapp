@@ -40,7 +40,7 @@
                             @method('post')
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Program</label>
-                                <input type="text" class="form-control" value="{{$parent->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kode}} {{$parent->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Kode Aktivitas</label>

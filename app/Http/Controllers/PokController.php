@@ -24,8 +24,43 @@ class PokController extends Controller
      */
     public function index()
     {
-        $programs = Program::all();
-        return view('pok.index', compact('programs'));
+        $pokitems = collect();
+        $programs = Program::all()->sortBy('posisi');
+        foreach ($programs as $program) {
+            $program->jenis = 'program';
+            $pokitems = $pokitems->push($program);
+            $aktivitases = Aktivitas::where(['program_id' => $program->kode])->get()->sortBy('posisi');
+            foreach ($aktivitases as $aktivitas) {
+                $aktivitas->jenis = 'aktivitas';
+                $pokitems = $pokitems->push($aktivitas);
+                $kros = Kro::where(['aktivitas_id' => $aktivitas->kode])->get()->sortBy('posisi');
+                foreach ($kros as $kro) {
+                    $kro->jenis = 'kro';
+                    $pokitems = $pokitems->push($kro);
+                    $ros = Ro::where(['kro_id' => $kro->kode])->get()->sortBy('posisi');
+                    foreach ($ros as $ro) {
+                        $ro->jenis = 'ro';
+                        $pokitems = $pokitems->push($ro);
+                        $komponens = Komponen::where(['ro_id' => $ro->kode])->get()->sortBy('posisi');
+                        foreach ($komponens as $komponen) {
+                            $komponen->jenis = 'komponen';
+                            $pokitems = $pokitems->push($komponen);
+                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->kode])->get()->sortBy('posisi');
+                            foreach ($subkomponens as $subkomponen) {
+                                $subkomponen->jenis = 'subkomponen';
+                                $pokitems = $pokitems->push($subkomponen);
+                                $detils = Detil::where(['subkomponen_id' => $subkomponen->kode])->get()->sortBy('posisi');
+                                foreach ($detils as $detil) {
+                                    $detil->jenis = 'detil';
+                                    $pokitems = $pokitems->push($detil);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return view('pok.index', compact('pokitems'));
     }
 
     /**
@@ -368,25 +403,63 @@ class PokController extends Controller
         }
     }
 
-    public function changePosition($type, $id)
+    public function showChangePosition($type, $id)
     {
         if ($type == 'program') {
             $pokitems = Aktivitas::where(['program_id' => $id])->get()->sortBy('posisi');
+            $parent = Program::find($id);
+            return view('pok.changepos-aktivitas', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'aktivitas') {
+            $parent = Aktivitas::find($id);
             $pokitems = Kro::where(['aktivitas_id' => $id])->get()->sortBy('posisi');
+            return view('pok.changepos-kro', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'kro') {
+            $parent = Kro::find($id);
             $pokitems = Ro::where(['kro_id' => $id])->get()->sortBy('posisi');
+            return view('pok.changepos-ro', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'ro') {
+            $parent = Ro::find($id);
             $pokitems = Komponen::where(['ro_id' => $id])->get()->sortBy('posisi');
+            return view('pok.changepos-komponen', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'komponen') {
+            $parent = Komponen::find($id);
             $pokitems = Subkomponen::where(['komponen_id' => $id])->get()->sortBy('posisi');
+            return view('pok.changepos-subkomponen', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'subkomponen') {
+            $parent = Subkomponen::find($id);
             $pokitems = Detil::where(['subkomponen_id' => $id])->get()->sortBy('posisi');
+            return view('pok.changepos-detil', compact(['pokitems', 'type', 'id', 'parent']));
         } else if ($type == 'root') {
             $pokitems = Program::all()->sortBy('posisi');
-            return view('pok.changepos-program', compact(['pokitems']));
+            return view('pok.changepos-program', compact(['pokitems', 'type', 'id']));
         } else {
             abort(404);
         }
+    }
+
+    public function updatePosition(Request $request, $type, $id)
+    {
+        $i = 0;
+        foreach ($request->position as $childid) {
+            if ($type == 'program') {
+                Aktivitas::where('kode', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'aktivitas') {
+                Kro::where('kode', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'kro') {
+                Ro::where('kode', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'ro') {
+                Komponen::where('kode', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'komponen') {
+                Subkomponen::where('kode', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'subkomponen') {
+                Detil::where('id', $childid)->update(['posisi' => $i]);
+            } else if ($type == 'root') {
+                Program::where('kode', $childid)->update(['posisi' => $i]);
+            } else {
+                abort(404);
+            }
+            $i++;
+        }
+        return redirect('/pok')->with('success-create', 'Urutan telah diubah!');
     }
 }

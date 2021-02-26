@@ -207,7 +207,6 @@
 						<div class="col-sm-6">
 							<p>2021 &copy; Badan Pusat Statistik Provinsi NTT</p>
 						</div>
-
 					</div>
 				</div>
 			</footer>

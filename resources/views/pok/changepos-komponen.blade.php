@@ -30,9 +30,9 @@
             <div class="panel panel-default border-panel card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h2 class="panel-title txt-dark">Ubah Posisi Program</h2>
-                        <p class="mb-0"><small>Menu Ubah Posisi digunakan untuk mengubah urutan Program</small></p>
-                        <p class="mb-0"><small>*Gunakan icon <i class="fa fa-arrows"></i> untuk mengubah posisi Program dengan teknik Drag and Drop</small></p>
+                        <h2 class="panel-title txt-dark">Ubah Posisi Komponen</h2>
+                        <p class="mb-0"><small>Menu Ubah Posisi digunakan untuk mengubah urutan Komponen</small></p>
+                        <p class="mb-0"><small>*Gunakan icon <i class="fa fa-arrows"></i> untuk mengubah posisi Komponen dengan teknik Drag and Drop</small></p>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -41,6 +41,10 @@
                         <form autocomplete="off" method="post" action="/pok/changepos/{{$type}}/id/{{$id}}" class="needs-validation ml-3" enctype="multipart/form-data" novalidate>
                             @csrf
                             @method('post')
+                            <div class="form-group">
+                                <label class="control-label mb-10 text-left"><strong>Deskripsi RO</strong></label>
+                                <blockquote>{{$parent->kode}} {{$parent->deskripsi}}</blockquote>
+                            </div>
                             <div class="row container" style="display: flex;">
                                 <div class="mr-30">
                                     <strong class="mb-0">Posisi</strong>
@@ -51,14 +55,14 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="container">
-                                    <strong class="mb-0">Deksripsi Program</strong>
+                                    <strong class="mb-0">Deksripsi Komponen</strong>
                                     <div id="sortablelist" class="list-group">
                                         @foreach($pokitems as $pokitem)
                                         <div class="list-group-item px-0 handle grabbable" style="border: none" draggable="false">
-                                            <i class="fa fa-arrows mr-3"></i>
-                                            <span><b>{{$pokitem->deskripsi}}</b></span>
+                                            <i class="fa fa-arrows text-danger mr-3"></i>
+                                            <span><strong>{{$pokitem->deskripsi}}</strong></span>
                                             <input type="hidden" id="position[]" name="position[]" value="{{$pokitem->kode}}" />
                                         </div>
                                         @endforeach

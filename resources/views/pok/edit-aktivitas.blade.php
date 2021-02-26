@@ -40,7 +40,7 @@
                             @method('patch')
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Program</label>
-                                <input type="text" class="form-control" value="{{$pokitem->program->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$pokitem->program->kode}} {{$pokitem->program->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Kode Aktivitas</label>

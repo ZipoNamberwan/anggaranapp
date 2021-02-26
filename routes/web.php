@@ -24,8 +24,10 @@ Route::get('/pok', [App\Http\Controllers\PokController::class, 'index']);
 Route::get('/pok/addchild/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'create']);
 Route::get('/pok/edit/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'edit']);
 Route::delete('/pok/delete/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'destroy']);
-Route::get('/pok/changepos/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'changePosition']);
+Route::get('/pok/changepos/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'showChangePosition']);
+Route::post('/pok/changepos/{type}/id/{id}', [App\Http\Controllers\PokController::class, 'updatePosition']);
 Route::post('/pok', [App\Http\Controllers\PokController::class, 'store']);
+Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
 
 // -- sampai sini

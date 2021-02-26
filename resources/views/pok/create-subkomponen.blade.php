@@ -40,23 +40,23 @@
                             @method('post')
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Program</label>
-                                <input type="text" class="form-control" value="{{$parent->ro->kro->aktivitas->program->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->ro->kro->aktivitas->program->kode}} {{$parent->ro->kro->aktivitas->program->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Aktivitas</label>
-                                <input type="text" class="form-control" value="{{$parent->ro->kro->aktivitas->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->ro->kro->aktivitas->kode}} {{$parent->ro->kro->aktivitas->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">KRO</label>
-                                <input type="text" class="form-control" value="{{$parent->ro->kro->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->ro->kro->kode}} {{$parent->ro->kro->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">RO</label>
-                                <input type="text" class="form-control" value="{{$parent->ro->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->ro->kode}} {{$parent->ro->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Komponen</label>
-                                <input type="text" class="form-control" value="{{$parent->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kode}} {{$parent->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Kode Sub Komponen</label>

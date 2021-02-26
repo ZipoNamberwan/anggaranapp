@@ -40,19 +40,19 @@
                             @method('post')
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Program</label>
-                                <input type="text" class="form-control" value="{{$parent->kro->aktivitas->program->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kro->aktivitas->program->kode}} {{$parent->kro->aktivitas->program->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Aktivitas</label>
-                                <input type="text" class="form-control" value="{{$parent->kro->aktivitas->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kro->aktivitas->kode}} {{$parent->kro->aktivitas->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">KRO</label>
-                                <input type="text" class="form-control" value="{{$parent->kro->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kro->kode}} {{$parent->kro->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">RO</label>
-                                <input type="text" class="form-control" value="{{$parent->deskripsi}}" disabled>
+                                <input type="text" class="form-control" value="{{$parent->kode}} {{$parent->deskripsi}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Kode Komponen</label>
