@@ -30,6 +30,9 @@ Route::post('/pok', [App\Http\Controllers\PokController::class, 'store']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
 
+Route::get('/downloadpok', [App\Http\Controllers\DownloadController::class, 'index']);
+Route::post('/downloadpok', [App\Http\Controllers\DownloadController::class, 'download']);
+
 // -- sampai sini
 
 Route::get('/dashboard', function () {

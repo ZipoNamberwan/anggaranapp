@@ -84,7 +84,7 @@
                                             <td>1</td>
                                             <td></td>
                                             <td></td>
-                                            <!-- <td><a href="{{url('/pok/addchild/root/id/1')}}" class="btn btn-success btn-icon left-icon" role="button">
+                                            <!-- <td><a href="#" class="btn btn-success btn-icon left-icon" role="button">
                                                     <span class="btn-inner--icon"><i class="fa fa-plus-circle"></i></span>
                                                     <span class="btn-inner--text">Tambah Program</span>
                                                 </a></td> -->
@@ -325,7 +325,7 @@
                 "orderable": false,
                 "render": function(data, type, row) {
                     if (type === 'display') {
-                        if (row[9] & row[6]) {
+                        if (row[9] && row[6]) {
                             var data = Math.floor(row[9] / row[6]);
                             var parts = data.toString().split(".");
                             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -388,9 +388,9 @@
         rowselected = dt.row({
             selected: true
         }).index();
-        console.log(dt.row({
-            selected: true
-        }).data());
+        // console.log(dt.row({
+        //     selected: true
+        // }).data());
         var count = table.rows({
             selected: true
         }).count();

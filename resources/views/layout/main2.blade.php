@@ -164,6 +164,16 @@
 					</ul>
 				</li>
 				<li class="navigation-header mt-20">
+					<span>Unduh</span>
+					<hr />
+				</li>
+				<li>
+					<a href="/downloadpok">
+						<div class="pull-left"><i class="ti-book mr-20"></i><span class="right-nav-text">Unduh POK</span></div>
+						<div class="clearfix"></div>
+					</a>
+				</li>
+				<li class="navigation-header mt-20">
 					<span>TABULASI</span>
 					<hr />
 				</li>
