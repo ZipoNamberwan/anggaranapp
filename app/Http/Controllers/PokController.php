@@ -45,11 +45,11 @@ class PokController extends Controller
                         foreach ($komponens as $komponen) {
                             $komponen->jenis = 'komponen';
                             $pokitems = $pokitems->push($komponen);
-                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->kode])->get()->sortBy('posisi');
+                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->id])->get()->sortBy('posisi');
                             foreach ($subkomponens as $subkomponen) {
                                 $subkomponen->jenis = 'subkomponen';
                                 $pokitems = $pokitems->push($subkomponen);
-                                $detils = Detil::where(['subkomponen_id' => $subkomponen->kode])->get()->sortBy('posisi');
+                                $detils = Detil::where(['subkomponen_id' => $subkomponen->id])->get()->sortBy('posisi');
                                 foreach ($detils as $detil) {
                                     $detil->jenis = 'detil';
                                     $pokitems = $pokitems->push($detil);
@@ -122,11 +122,13 @@ class PokController extends Controller
             $validationArray['detiltype'] = 'required';
             $validationArray['volume'] = 'required|numeric';
             $validationArray['unit'] = 'required';
+            $validationArray['unit_price'] = 'required|numeric';
 
             $validationAttribute['department'] = 'Fungsi';
             $validationAttribute['detiltype'] = 'Jenis Belanja';
             $validationAttribute['volume'] = 'Volume';
             $validationAttribute['unit'] = 'Satuan';
+            $validationAttribute['unit_price'] = 'Harga Satuan';
         }
 
         $validator = Validator::make($request->all(), $validationArray, [], $validationAttribute);
@@ -204,9 +206,10 @@ class PokController extends Controller
                 'fungsi_id' => $request->department,
                 'jenis_belanja_id' => $request->detiltype,
                 'subkomponen_id' => $request->parent_id,
+                'harga_satuan' => $request->unit_price,
                 'posisi' => $pos
             ]);
-            return redirect('/pok')->with('success-create', 'Sub Komponen telah ditambah!');
+            return redirect('/pok')->with('success-create', 'Detil telah ditambah!');
         } else {
             abort(404);
         }
@@ -285,11 +288,13 @@ class PokController extends Controller
             $validationArray['detiltype'] = 'required';
             $validationArray['volume'] = 'required|numeric';
             $validationArray['unit'] = 'required';
+            $validationArray['unit_price'] = 'required|numeric';
 
             $validationAttribute['department'] = 'Fungsi';
             $validationAttribute['detiltype'] = 'Jenis Belanja';
             $validationAttribute['volume'] = 'Volume';
             $validationAttribute['unit'] = 'Satuan';
+            $validationAttribute['unit_price'] = 'Harga Satuan';
         }
 
         $validator = Validator::make($request->all(), $validationArray, [], $validationAttribute);
@@ -346,10 +351,11 @@ class PokController extends Controller
                 'jumlah' => $request->total,
                 'satuan' => $request->unit,
                 'volume' => $request->volume,
+                'harga_satuan' => $request->unit_price,
                 'fungsi_id' => $request->department,
                 'jenis_belanja_id' => $request->detiltype,
             ]);
-            return redirect('/pok')->with('success-create', 'Sub Komponen telah diubah!');
+            return redirect('/pok')->with('success-create', 'Detil telah diubah!');
         } else {
             abort(404);
         }
