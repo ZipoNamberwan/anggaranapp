@@ -13,6 +13,7 @@ class Komponen extends Model
     // public $primaryKey = 'kode';
     // protected $keyType = 'string';
     // public $incrementing = false;
+    //
 
     public function subkomponen()
     {
