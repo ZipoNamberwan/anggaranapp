@@ -161,7 +161,7 @@
                                         @elseif($pokitem->jenis == 'komponen')
                                         <tr>
                                             <td>komponen</td>
-                                            <td>{{$pokitem->kode}}</td>
+                                            <td>{{$pokitem->id}}</td>
                                             <td>{{$pokitem->ro->kode}}</td>
                                             <td>Komponen</td>
                                             <td style="padding: 0px 0px 0px 120px;">{{$pokitem->kode}}</td>
@@ -176,8 +176,8 @@
                                         @elseif($pokitem->jenis == 'subkomponen')
                                         <tr>
                                             <td>subkomponen</td>
-                                            <td>{{$pokitem->kode}}</td>
-                                            <td>{{$pokitem->komponen->kode}}</td>
+                                            <td>{{$pokitem->id}}</td>
+                                            <td>{{$pokitem->komponen->id}}</td>
                                             <td>Sub Komponen</td>
                                             <td style="padding: 0px 0px 0px 150px;">{{$pokitem->kode}}</td>
                                             <td>{{$pokitem->deskripsi}}</td>
@@ -192,13 +192,13 @@
                                         <tr>
                                             <td>detil</td>
                                             <td>{{$pokitem->id}}</td>
-                                            <td>{{$pokitem->subkomponen->kode}}</td>
+                                            <td>{{$pokitem->subkomponen->id}}</td>
                                             <td>Detil</td>
                                             <td></td>
                                             <td>{{$pokitem->deskripsi}}</td>
                                             <td>{{$pokitem->volume}}</td>
                                             <td>{{$pokitem->satuan}}</td>
-                                            <td></td>
+                                            <td>{{$pokitem->harga_satuan}}</td>
                                             <td>{{$pokitem->jumlah}}</td>
                                             <td>{{$pokitem->fungsi->nama}}</td>
                                             <td>{{$pokitem->jenisbelanja->nama}}</td>
@@ -325,8 +325,7 @@
                 "orderable": false,
                 "render": function(data, type, row) {
                     if (type === 'display') {
-                        if (row[9] && row[6]) {
-                            var data = Math.floor(row[9] / row[6]);
+                        if (data) {
                             var parts = data.toString().split(".");
                             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                             return "Rp " + parts.join(".");

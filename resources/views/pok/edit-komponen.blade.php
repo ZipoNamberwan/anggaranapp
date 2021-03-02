@@ -35,7 +35,7 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        <form autocomplete="off" onsubmit="return onSubmit()" action="/pok/{{$type}}/{{$pokitem->kode}}" data-toggle="validator" role="form" method="POST">
+                        <form autocomplete="off" onsubmit="return onSubmit()" action="/pok/{{$type}}/{{$pokitem->id}}" data-toggle="validator" role="form" method="POST">
                             @csrf
                             @method('patch')
                             <div class="form-group">

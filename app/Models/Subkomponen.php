@@ -10,10 +10,10 @@ class Subkomponen extends Model
     use HasFactory;
     public $table = 'subkomponen';
 	
-	public $primaryKey = 'kode';
     public $guarded = [];
-    protected $keyType = 'string';
-    public $incrementing = false;
+    // public $primaryKey = 'kode';
+    // protected $keyType = 'string';
+    // public $incrementing = false;
     
     public function detil(){
         return $this->hasMany(Detil::class, 'subkomponen_id');

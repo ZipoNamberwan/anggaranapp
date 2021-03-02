@@ -72,7 +72,8 @@ class Version1 extends Migration
         });
 
         Schema::create('komponen', function (Blueprint $table) {
-            $table->string('kode', 50)->primary();
+            $table->id();
+            $table->string('kode');
             $table->string('deskripsi');
             $table->bigInteger('jumlah');
             $table->integer('posisi');
@@ -83,12 +84,13 @@ class Version1 extends Migration
         });
 
         Schema::create('subkomponen', function (Blueprint $table) {
-            $table->string('kode', 50)->primary();
+            $table->id();
+            $table->string('kode', 50);
             $table->string('deskripsi');
             $table->bigInteger('jumlah');
             $table->integer('posisi');
-            $table->string('komponen_id');
-            $table->foreign('komponen_id')->references('kode')->on('komponen')->onUpdate('cascade');
+            $table->bigInteger('komponen_id')->unsigned();
+            $table->foreign('komponen_id')->references('id')->on('komponen')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -97,11 +99,12 @@ class Version1 extends Migration
             $table->id();
             $table->string('deskripsi');
             $table->bigInteger('jumlah');
+            $table->bigInteger('harga_satuan');
             $table->integer('posisi');
             $table->integer('volume');
             $table->string('satuan');
-            $table->string('subkomponen_id');
-            $table->foreign('subkomponen_id')->references('kode')->on('subkomponen')->onUpdate('cascade');
+            $table->bigInteger('subkomponen_id')->unsigned();
+            $table->foreign('subkomponen_id')->references('id')->on('subkomponen')->onUpdate('cascade');
             $table->foreignId('jenis_belanja_id')->constrained('jenis_belanja');
             $table->foreignId('fungsi_id')->constrained('fungsi');
 

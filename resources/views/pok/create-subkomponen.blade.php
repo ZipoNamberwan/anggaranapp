@@ -80,7 +80,7 @@
                                 @enderror
                             </div>
                             <input type="hidden" value="subkomponen" name="create_type">
-                            <input type="hidden" value="{{$parent->kode}}" name="parent_id">
+                            <input type="hidden" value="{{$parent->id}}" name="parent_id">
                             <button class="btn btn-primary" type="submit">Submit</button>
                         </form>
                     </div>

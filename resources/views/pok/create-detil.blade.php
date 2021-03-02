@@ -84,6 +84,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label class="control-label mb-10 text-left">Harga Satuan</label>
+                                <input id="unit_price" type="text" min="0" class="form-control" placeholder="Harga Satuan" name="unit_price" value="{{old('unit_price')}}">
+                                @error('unit_price')
+                                <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label mb-10 text-left">Jumlah</label>
                                 <input id="total" type="text" class="form-control" placeholder="Jumlah" name="total" value="{{old('total')}}">
                                 @error('total')
@@ -100,7 +107,8 @@
                                 </select>
                                 @error('department')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
-                                @enderror                            </div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label class="control-label mb-10">Jenis Belanja</label>
                                 <select class="form-control select2" name="detiltype">
@@ -111,11 +119,11 @@
                                 </select>
                                 @error('detiltype')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
-                                @enderror  
+                                @enderror
                             </div>
                             <input type="hidden" value="1" name="id">
                             <input type="hidden" value="detil" name="create_type">
-                            <input type="hidden" value="{{$parent->kode}}" name="parent_id">
+                            <input type="hidden" value="{{$parent->id}}" name="parent_id">
                             <button class="btn btn-primary" type="submit">Submit</button>
                         </form>
                     </div>
@@ -131,7 +139,7 @@
 <script src="/vendors/imask/imask.js"></script>
 
 <script type="text/javascript">
-    var currencyMask = IMask(
+    var totalMask = IMask(
         document.getElementById('total'), {
             mask: 'Rp num',
             blocks: {
@@ -143,8 +151,21 @@
         }
     );
 
+    var unitPriceMask = IMask(
+        document.getElementById('unit_price'), {
+            mask: 'Rp num',
+            blocks: {
+                num: {
+                    mask: Number,
+                    thousandsSeparator: '.'
+                }
+            }
+        }
+    );
+
     function onSubmit() {
-        document.getElementById('total').value = currencyMask.masked.unmaskedValue;
+        document.getElementById('total').value = totalMask.masked.unmaskedValue;
+        document.getElementById('unit_price').value = unitPriceMask.masked.unmaskedValue;
     }
 </script>
 @endsection

@@ -46,11 +46,11 @@ class DownloadController extends Controller
                         foreach ($komponens as $komponen) {
                             $komponen->jenis = 'komponen';
                             $pokitems = $pokitems->push($komponen);
-                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->kode])->get()->sortBy('posisi');
+                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->id])->get()->sortBy('posisi');
                             foreach ($subkomponens as $subkomponen) {
                                 $subkomponen->jenis = 'subkomponen';
                                 $pokitems = $pokitems->push($subkomponen);
-                                $detils = Detil::where(['subkomponen_id' => $subkomponen->kode])->get()->sortBy('posisi');
+                                $detils = Detil::where(['subkomponen_id' => $subkomponen->id])->get()->sortBy('posisi');
                                 foreach ($detils as $detil) {
                                     $detil->jenis = 'detil';
                                     $pokitems = $pokitems->push($detil);
