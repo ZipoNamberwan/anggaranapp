@@ -107,7 +107,8 @@
                                 </select>
                                 @error('department')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
-                                @enderror                            </div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label class="control-label mb-10">Jenis Belanja</label>
                                 <select class="form-control select2" name="detiltype">
@@ -118,7 +119,7 @@
                                 </select>
                                 @error('detiltype')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
-                                @enderror  
+                                @enderror
                             </div>
                             <input type="hidden" value="1" name="id">
                             <input type="hidden" value="detil" name="create_type">
