@@ -99,6 +99,7 @@
                                         </tr>
                                         @foreach($pokitems as $pokitem)
                                         @if ($pokitem->jenis == 'program')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>{{$pokitem->jenis}}</td>
                                             <td>{{$pokitem->kode}}</td>
@@ -113,7 +114,9 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'aktivitas')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>{{$pokitem->jenis}}</td>
                                             <td>{{$pokitem->kode}}</td>
@@ -128,7 +131,9 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'kro')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>kro</td>
                                             <td>{{$pokitem->kode}}</td>
@@ -143,7 +148,9 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'ro')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>ro</td>
                                             <td>{{$pokitem->kode}}</td>
@@ -158,7 +165,9 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'komponen')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>komponen</td>
                                             <td>{{$pokitem->id}}</td>
@@ -173,7 +182,9 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'subkomponen')
+                                        @if($pokitem->is_shown)
                                         <tr>
                                             <td>subkomponen</td>
                                             <td>{{$pokitem->id}}</td>
@@ -188,6 +199,7 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                        @endif
                                         @elseif($pokitem->jenis == 'detil')
                                         <tr>
                                             <td>detil</td>

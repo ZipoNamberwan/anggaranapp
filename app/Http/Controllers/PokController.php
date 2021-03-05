@@ -24,32 +24,56 @@ class PokController extends Controller
      */
     public function index()
     {
+        // Ubah nilai $fungsi_id sesuai role, kalau role IPDS berarti $fungsi_id=6
+        // kalo role sosial berarti $fungsi_id=2, dan seterusnya, kalo rolenya
+        // adalah admin atau role viewer maka isikan nilai $fungsi_id=null 
+        $fungsi_id = 6;
+
+        $can_see_all = $fungsi_id ? false : true;
+        $filter_array = $can_see_all ? array() : array('fungsi_id' => $fungsi_id);
+        $is_shown = $can_see_all ? true : false;
+
         $pokitems = collect();
         $programs = Program::all()->sortBy('posisi');
         foreach ($programs as $program) {
             $program->jenis = 'program';
+            $program->is_shown = $is_shown;
             $pokitems = $pokitems->push($program);
             $aktivitases = Aktivitas::where(['program_id' => $program->kode])->get()->sortBy('posisi');
             foreach ($aktivitases as $aktivitas) {
                 $aktivitas->jenis = 'aktivitas';
+                $aktivitas->is_shown = $is_shown;
                 $pokitems = $pokitems->push($aktivitas);
                 $kros = Kro::where(['aktivitas_id' => $aktivitas->kode])->get()->sortBy('posisi');
                 foreach ($kros as $kro) {
                     $kro->jenis = 'kro';
+                    $kro->is_shown = $is_shown;
                     $pokitems = $pokitems->push($kro);
                     $ros = Ro::where(['kro_id' => $kro->kode])->get()->sortBy('posisi');
                     foreach ($ros as $ro) {
                         $ro->jenis = 'ro';
+                        $ro->is_shown = $is_shown;
                         $pokitems = $pokitems->push($ro);
                         $komponens = Komponen::where(['ro_id' => $ro->kode])->get()->sortBy('posisi');
                         foreach ($komponens as $komponen) {
                             $komponen->jenis = 'komponen';
+                            $komponen->is_shown = $is_shown;
                             $pokitems = $pokitems->push($komponen);
                             $subkomponens = Subkomponen::where(['komponen_id' => $komponen->id])->get()->sortBy('posisi');
                             foreach ($subkomponens as $subkomponen) {
                                 $subkomponen->jenis = 'subkomponen';
+                                $subkomponen->is_shown = $is_shown;
                                 $pokitems = $pokitems->push($subkomponen);
-                                $detils = Detil::where(['subkomponen_id' => $subkomponen->id])->get()->sortBy('posisi');
+                                $filter_array['subkomponen_id'] = $subkomponen->id;
+                                $detils = Detil::where($filter_array)->get()->sortBy('posisi');
+                                if (count($detils) > 0 && !$can_see_all) {
+                                    $program->is_shown = !$is_shown;
+                                    $aktivitas->is_shown = !$is_shown;
+                                    $kro->is_shown = !$is_shown;
+                                    $ro->is_shown = !$is_shown;
+                                    $komponen->is_shown = !$is_shown;
+                                    $subkomponen->is_shown = !$is_shown;
+                                }
                                 foreach ($detils as $detil) {
                                     $detil->jenis = 'detil';
                                     $pokitems = $pokitems->push($detil);
