@@ -29,9 +29,11 @@ Route::post('/pok/changepos/{type}/id/{id}', [App\Http\Controllers\PokController
 Route::post('/pok', [App\Http\Controllers\PokController::class, 'store']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
 Route::patch('/pok/{type}/{id}', [App\Http\Controllers\PokController::class, 'update']);
+Route::get('/rpd', [App\Http\Controllers\PokController::class, 'rpd']);
 
 Route::get('/downloadpok', [App\Http\Controllers\DownloadController::class, 'index']);
 Route::post('/downloadpok', [App\Http\Controllers\DownloadController::class, 'download']);
+Route::patch('/entrirpd/{id}/{column}/{value}', [App\Http\Controllers\PokController::class, 'entriRpd']);
 
 // -- sampai sini
 
