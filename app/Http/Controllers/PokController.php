@@ -252,7 +252,7 @@ class PokController extends Controller
 
     public function rpd()
     {
-        $fungsi_id = 6;
+        $fungsi_id = null;
 
         $can_see_all = $fungsi_id ? false : true;
         $filter_array = $can_see_all ? array() : array('fungsi_id' => $fungsi_id);

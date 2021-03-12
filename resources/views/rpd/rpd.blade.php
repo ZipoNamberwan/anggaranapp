@@ -2,6 +2,8 @@
 
 @section('stylesheet')
 <link rel="stylesheet" href="/style.css" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 @endsection
 
 @section('container')
