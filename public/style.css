@@ -14,3 +14,8 @@
     border: 2px solid red;
     border-radius: 4px;
 }
+
+div.fixed-column {
+    width: 500px;
+    margin: auto;
+  }

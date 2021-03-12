@@ -312,6 +312,68 @@ class PokController extends Controller
         return view('rpd.rpd', compact('pokitems'));
     }
 
+    public function lds()
+    {
+        $fungsi_id = null;
+
+        $can_see_all = $fungsi_id ? false : true;
+        $filter_array = $can_see_all ? array() : array('fungsi_id' => $fungsi_id);
+        $is_shown = $can_see_all ? true : false;
+
+        $pokitems = collect();
+        $programs = Program::all()->sortBy('posisi');
+        foreach ($programs as $program) {
+            $program->jenis = 'program';
+            $program->is_shown = $is_shown;
+            $pokitems = $pokitems->push($program);
+            $aktivitases = Aktivitas::where(['program_id' => $program->kode])->get()->sortBy('posisi');
+            foreach ($aktivitases as $aktivitas) {
+                $aktivitas->jenis = 'aktivitas';
+                $aktivitas->is_shown = $is_shown;
+                $pokitems = $pokitems->push($aktivitas);
+                $kros = Kro::where(['aktivitas_id' => $aktivitas->kode])->get()->sortBy('posisi');
+                foreach ($kros as $kro) {
+                    $kro->jenis = 'kro';
+                    $kro->is_shown = $is_shown;
+                    $pokitems = $pokitems->push($kro);
+                    $ros = Ro::where(['kro_id' => $kro->kode])->get()->sortBy('posisi');
+                    foreach ($ros as $ro) {
+                        $ro->jenis = 'ro';
+                        $ro->is_shown = $is_shown;
+                        $pokitems = $pokitems->push($ro);
+                        $komponens = Komponen::where(['ro_id' => $ro->kode])->get()->sortBy('posisi');
+                        foreach ($komponens as $komponen) {
+                            $komponen->jenis = 'komponen';
+                            $komponen->is_shown = $is_shown;
+                            $pokitems = $pokitems->push($komponen);
+                            $subkomponens = Subkomponen::where(['komponen_id' => $komponen->id])->get()->sortBy('posisi');
+                            foreach ($subkomponens as $subkomponen) {
+                                $subkomponen->jenis = 'subkomponen';
+                                $subkomponen->is_shown = $is_shown;
+                                $pokitems = $pokitems->push($subkomponen);
+                                $filter_array['subkomponen_id'] = $subkomponen->id;
+                                $detils = Detil::where($filter_array)->get()->sortBy('posisi');
+                                if (count($detils) > 0 && !$can_see_all) {
+                                    $program->is_shown = !$is_shown;
+                                    $aktivitas->is_shown = !$is_shown;
+                                    $kro->is_shown = !$is_shown;
+                                    $ro->is_shown = !$is_shown;
+                                    $komponen->is_shown = !$is_shown;
+                                    $subkomponen->is_shown = !$is_shown;
+                                }
+                                foreach ($detils as $detil) {
+                                    $detil->jenis = 'detil';
+                                    $pokitems = $pokitems->push($detil);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return view('lds.lds', compact('pokitems'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -555,11 +617,37 @@ class PokController extends Controller
         return redirect('/pok')->with('success-create', 'Urutan telah diubah!');
     }
 
-    public function entriRpd($id, $column, $value){
+    public function entriRpd($id, $column, $value)
+    {
         if ($value == 0) $value = null;
         $detil = Detil::find($id);
-        return $detil->update([
+
+        $response = array();
+        $response['is_success'] = $detil->update([
             $column => $value,
         ]);
+        if ($response['is_success'] == 1) $response['sisa'] = $detil->jumlah - $detil->jan_rpd
+            - $detil->feb_rpd - $detil->mar_rpd - $detil->apr_rpd - $detil->mei_rpd - $detil->jun_rpd
+            - $detil->jul_rpd - $detil->agu_rpd - $detil->sep_rpd - $detil->okt_rpd - $detil->nov_rpd
+            - $detil->des_rpd;
+
+        return $response;
+    }
+
+    public function entriLds($id, $column, $value)
+    {
+        if ($value == 0) $value = null;
+        $detil = Detil::find($id);
+
+        $response = array();
+        $response['is_success'] = $detil->update([
+            $column => $value,
+        ]);
+        if ($response['is_success'] == 1) $response['sisa'] = $detil->jumlah - $detil->jan_lds
+            - $detil->feb_lds - $detil->mar_lds - $detil->apr_lds - $detil->mei_lds - $detil->jun_lds
+            - $detil->jul_lds - $detil->agu_lds - $detil->sep_lds - $detil->okt_lds - $detil->nov_lds
+            - $detil->des_lds;
+
+        return $response;
     }
 }

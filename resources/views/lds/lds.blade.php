@@ -34,7 +34,7 @@
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#"><span>RPD</span></a></li>
+                <li><a href="#"><span>LDS</span></a></li>
                 <li class="active"><span>Lihat</span></li>
             </ol>
         </div>
@@ -47,7 +47,7 @@
             <div class="panel panel-default border-panel card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h6 class="panel-title txt-dark">RPD Daftar POK</h6>
+                        <h6 class="panel-title txt-dark">LDS Daftar POK</h6>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -256,55 +256,55 @@
                                                     <td>{{ $pokitem->harga_satuan }}</td>
                                                     <td>{{ $pokitem->jumlah }}</td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}jan_rpd" name="jan_rpd" size="10"
-                                                            value="{{ $pokitem->jan_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jan_rpd')"></td>
+                                                            id="{{ $pokitem->id }}jan_lds" name="jan_lds" size="10"
+                                                            value="{{ $pokitem->jan_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jan_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}feb_rpd" name="feb_rpd" size="10"
-                                                            value="{{ $pokitem->feb_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'feb_rpd')"></td>
+                                                            id="{{ $pokitem->id }}feb_lds" name="feb_lds" size="10"
+                                                            value="{{ $pokitem->feb_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'feb_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}mar_rpd" name="mar_rpd" size="10"
-                                                            value="{{ $pokitem->mar_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'mar_rpd')"></td>
+                                                            id="{{ $pokitem->id }}mar_lds" name="mar_lds" size="10"
+                                                            value="{{ $pokitem->mar_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'mar_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}apr_rpd" name="apr_rpd" size="10"
-                                                            value="{{ $pokitem->apr_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'apr_rpd')"></td>
+                                                            id="{{ $pokitem->id }}apr_lds" name="apr_lds" size="10"
+                                                            value="{{ $pokitem->apr_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'apr_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}mei_rpd" name="mei_rpd" size="10"
-                                                            value="{{ $pokitem->mei_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'mei_rpd')"></td>
+                                                            id="{{ $pokitem->id }}mei_lds" name="mei_lds" size="10"
+                                                            value="{{ $pokitem->mei_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'mei_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}jun_rpd" name="jun_rpd" size="10"
-                                                            value="{{ $pokitem->jun_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jun_rpd')"></td>
+                                                            id="{{ $pokitem->id }}jun_lds" name="jun_lds" size="10"
+                                                            value="{{ $pokitem->jun_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jun_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}jul_rpd" name="jul_rpd" size="10"
-                                                            value="{{ $pokitem->jul_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jul_rpd')"></td>
+                                                            id="{{ $pokitem->id }}jul_lds" name="jul_lds" size="10"
+                                                            value="{{ $pokitem->jul_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'jul_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}agu_rpd" name="agu_rpd" size="10"
-                                                            value="{{ $pokitem->agu_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'agu_rpd')"></td>
+                                                            id="{{ $pokitem->id }}agu_lds" name="agu_lds" size="10"
+                                                            value="{{ $pokitem->agu_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'agu_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}sep_rpd" name="sep_rpd" size="10"
-                                                            value="{{ $pokitem->sep_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'sep_rpd')"></td>
+                                                            id="{{ $pokitem->id }}sep_lds" name="sep_lds" size="10"
+                                                            value="{{ $pokitem->sep_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'sep_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}okt_rpd" name="okt_rpd" size="10"
-                                                            value="{{ $pokitem->okt_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'okt_rpd')"></td>
+                                                            id="{{ $pokitem->id }}okt_lds" name="okt_lds" size="10"
+                                                            value="{{ $pokitem->okt_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'okt_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}nov_rpd" name="nov_rpd" size="10"
-                                                            value="{{ $pokitem->nov_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'nov_rpd')"></td>
+                                                            id="{{ $pokitem->id }}nov_lds" name="nov_lds" size="10"
+                                                            value="{{ $pokitem->nov_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'nov_lds')"></td>
                                                     <td><input type="text" style="width: 100px" class="number form-control"
-                                                            id="{{ $pokitem->id }}des_rpd" name="des_rpd" size="10"
-                                                            value="{{ $pokitem->des_rpd }}"
-                                                            onfocusout="saveData('{{ $pokitem->id }}', 'des_rpd')"></td>
+                                                            id="{{ $pokitem->id }}des_lds" name="des_lds" size="10"
+                                                            value="{{ $pokitem->des_lds }}"
+                                                            onfocusout="saveData('{{ $pokitem->id }}', 'des_lds')"></td>
                                                     <td id="{{ $pokitem->id }}sisa" style="background-color:white">
-                                                        {{ $pokitem->jumlah - $pokitem->jan_rpd - $pokitem->feb_rpd - $pokitem->mar_rpd - $pokitem->apr_rpd - $pokitem->mei_rpd - $pokitem->jun_rpd - $pokitem->jul_rpd - $pokitem->agu_rpd - $pokitem->sep_rpd - $pokitem->okt_rpd - $pokitem->nov_rpd - $pokitem->des_rpd }}
+                                                        {{ $pokitem->jumlah - $pokitem->jan_lds - $pokitem->feb_lds - $pokitem->mar_lds - $pokitem->apr_lds - $pokitem->mei_lds - $pokitem->jun_lds - $pokitem->jul_lds - $pokitem->agu_lds - $pokitem->sep_lds - $pokitem->okt_lds - $pokitem->nov_lds - $pokitem->des_lds }}
                                                     </td>
                                                     {{-- <td id="{{ $pokitem->id }}sisa"></td> --}}
                                                     <td>
@@ -483,7 +483,7 @@
                 value = 0;
             }
             $.ajax({
-                url: "{{ url('entrirpd/') }}/" + id + "/" + column + "/" + value,
+                url: "{{ url('entrilds/') }}/" + id + "/" + column + "/" + value,
                 success: function(result, status, xhr) {
                     if (result.is_success) {
                         element.classList.add("success-input");
