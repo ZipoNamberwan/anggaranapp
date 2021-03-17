@@ -622,14 +622,20 @@ class PokController extends Controller
         if ($value == 0) $value = null;
         $detil = Detil::find($id);
 
-        $response = array();
-        $response['is_success'] = $detil->update([
-            $column => $value,
-        ]);
-        if ($response['is_success'] == 1) $response['sisa'] = $detil->jumlah - $detil->jan_rpd
+        $detil->$column = $value;
+        $sisa = $detil->jumlah - $detil->jan_rpd
             - $detil->feb_rpd - $detil->mar_rpd - $detil->apr_rpd - $detil->mei_rpd - $detil->jun_rpd
             - $detil->jul_rpd - $detil->agu_rpd - $detil->sep_rpd - $detil->okt_rpd - $detil->nov_rpd
             - $detil->des_rpd;
+
+        $response = array();
+        if ($sisa >= 0) {
+            $response['is_success'] = $detil->save();
+            if ($response['is_success'] == 1) $response['sisa'] = $sisa;
+        } else {
+            $response['is_success'] = false;
+            $response['message'] = 'Sisa tidak boleh minus';
+        }
 
         return $response;
     }
@@ -639,14 +645,20 @@ class PokController extends Controller
         if ($value == 0) $value = null;
         $detil = Detil::find($id);
 
-        $response = array();
-        $response['is_success'] = $detil->update([
-            $column => $value,
-        ]);
-        if ($response['is_success'] == 1) $response['sisa'] = $detil->jumlah - $detil->jan_lds
+        $detil->$column = $value;
+        $sisa = $detil->jumlah - $detil->jan_lds
             - $detil->feb_lds - $detil->mar_lds - $detil->apr_lds - $detil->mei_lds - $detil->jun_lds
             - $detil->jul_lds - $detil->agu_lds - $detil->sep_lds - $detil->okt_lds - $detil->nov_lds
             - $detil->des_lds;
+
+        $response = array();
+        if ($sisa >= 0) {
+            $response['is_success'] = $detil->save();
+            if ($response['is_success'] == 1) $response['sisa'] = $sisa;
+        } else {
+            $response['is_success'] = false;
+            $response['message'] = 'Sisa tidak boleh minus';
+        }
 
         return $response;
     }
