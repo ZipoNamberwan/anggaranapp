@@ -13,6 +13,7 @@ use App\Models\Ro;
 use App\Models\Subkomponen;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PokController extends Controller
@@ -27,7 +28,7 @@ class PokController extends Controller
         // Ubah nilai $fungsi_id sesuai role, kalau role IPDS berarti $fungsi_id=6
         // kalo role sosial berarti $fungsi_id=2, dan seterusnya, kalo rolenya
         // adalah admin atau role viewer maka isikan nilai $fungsi_id=null 
-        $fungsi_id = 6;
+        $fungsi_id = null;
 
         $can_see_all = $fungsi_id ? false : true;
         $filter_array = $can_see_all ? array() : array('fungsi_id' => $fungsi_id);
@@ -222,7 +223,7 @@ class PokController extends Controller
             return redirect('/pok')->with('success-create', 'Sub Komponen telah ditambah!');
         } else if ($request->create_type == 'detil') {
             $pos = count(Detil::where(['subkomponen_id' => $request->parent_id])->get());
-            Detil::create([
+            $detil = Detil::create([
                 'deskripsi' => $request->name,
                 'jumlah' => $request->total,
                 'satuan' => $request->unit,
@@ -233,6 +234,10 @@ class PokController extends Controller
                 'harga_satuan' => $request->unit_price,
                 'posisi' => $pos
             ]);
+
+            //$this->validateAllTree();
+            $this->validateOnlyTree($detil->subkomponen);
+
             return redirect('/pok')->with('success-create', 'Detil telah ditambah!');
         } else {
             abort(404);
@@ -494,7 +499,10 @@ class PokController extends Controller
             ]);
             return redirect('/pok')->with('success-create', 'Sub Komponen telah diubah!');
         } else if ($request->create_type == 'detil') {
-            Detil::find($id)->update([
+
+            $detil = Detil::find($id);
+
+            $detil->update([
                 'deskripsi' => $request->name,
                 'jumlah' => $request->total,
                 'satuan' => $request->unit,
@@ -503,6 +511,10 @@ class PokController extends Controller
                 'fungsi_id' => $request->department,
                 'jenis_belanja_id' => $request->detiltype,
             ]);
+
+            //$this->validateAllTree();
+            $this->validateOnlyTree($detil->subkomponen);
+
             return redirect('/pok')->with('success-create', 'Detil telah diubah!');
         } else {
             abort(404);
@@ -547,7 +559,11 @@ class PokController extends Controller
             } else if ($type == 'detil') {
                 $typename = "Detil";
                 $pokitemname = Detil::find($id)->deskripsi;
+                $subkomponen = Detil::find($id)->subkomponen;
                 Detil::find($id)->delete();
+
+                //$this->validateAllTree();
+                $this->validateOnlyTree($subkomponen);
             } else {
                 abort(404);
             }
@@ -604,7 +620,7 @@ class PokController extends Controller
             } else if ($type == 'ro') {
                 Komponen::where('kode', $childid)->update(['posisi' => $i]);
             } else if ($type == 'komponen') {
-                Subkomponen::where('kode', $childid)->update(['posisi' => $i]);
+                Subkomponen::where('id', $childid)->update(['posisi' => $i]);
             } else if ($type == 'subkomponen') {
                 Detil::where('id', $childid)->update(['posisi' => $i]);
             } else if ($type == 'root') {
@@ -661,5 +677,136 @@ class PokController extends Controller
         }
 
         return $response;
+    }
+
+    public function validateOnlyTree(Subkomponen $subkomponen)
+    {
+        $jumlahsubkomponen = 0;
+        foreach ($subkomponen->detil as $item) {
+            $jumlahsubkomponen = $jumlahsubkomponen + $item->jumlah;
+        }
+        $subkomponen->update([
+            'jumlah' => ($jumlahsubkomponen),
+        ]);
+
+        $komponen = $subkomponen->komponen;
+        $jumlahkomponen = 0;
+        foreach ($komponen->subkomponen as $item) {
+            $jumlahkomponen = $jumlahkomponen + $item->jumlah;
+        }
+        $komponen->update([
+            'jumlah' => ($jumlahkomponen),
+        ]);
+
+        $ro = $komponen->ro;
+        $jumlahro = 0;
+        foreach ($ro->komponen as $item) {
+            $jumlahro = $jumlahro + $item->jumlah;
+        }
+        $ro->update([
+            'jumlah' => ($jumlahro),
+        ]);
+
+        $kro = $ro->kro;
+        $jumlahkro = 0;
+        foreach ($kro->ro as $item) {
+            $jumlahkro = $jumlahkro + $item->jumlah;
+        }
+        $kro->update([
+            'jumlah' => ($jumlahkro),
+        ]);
+
+        $aktivitas = $kro->aktivitas;
+        $jumlahaktivitas = 0;
+        foreach ($aktivitas->kro as $item) {
+            $jumlahaktivitas = $jumlahaktivitas + $item->jumlah;
+        }
+        $aktivitas->update([
+            'jumlah' => ($jumlahaktivitas),
+        ]);
+
+        $program = $aktivitas->program;
+        $jumlahprogram = 0;
+        foreach ($program->aktivitas as $item) {
+            $jumlahprogram = $jumlahprogram + $item->jumlah;
+        }
+        $program->update([
+            'jumlah' => ($jumlahprogram),
+        ]);
+    }
+
+    public function validateAllTree()
+    {
+        $subkomponens = DB::table('detil')
+            ->select('subkomponen_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('subkomponen_id')
+            ->get()->keyBy('id');
+
+        foreach (Subkomponen::all() as $subkomponen) {
+            $jumlah = $subkomponens->has($subkomponen->id) ? $subkomponens[$subkomponen->id]->jumlah : 0;
+            $subkomponen->update([
+                'jumlah' => $jumlah
+            ]);
+        }
+
+        $komponens = DB::table('subkomponen')
+            ->select('komponen_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('komponen_id')
+            ->get()->keyBy('id');
+
+        foreach (Komponen::all() as $komponen) {
+            $jumlah = $komponens->has($komponen->id) ? $komponens[$komponen->id]->jumlah : 0;
+            $komponen->update([
+                'jumlah' => $jumlah
+            ]);
+        }
+
+        $ros = DB::table('komponen')
+            ->select('ro_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('ro_id')
+            ->get()->keyBy('id');
+
+        foreach (Ro::all() as $ro) {
+            $jumlah = $ros->has($ro->kode) ? $ros[$ro->kode]->jumlah : 0;
+            $ro->update([
+                'jumlah' => $jumlah
+            ]);
+        }
+
+        $kros = DB::table('ro')
+            ->select('kro_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('kro_id')
+            ->get()->keyBy('id');
+
+        foreach (Kro::all() as $kro) {
+            $jumlah = $kros->has($kro->kode) ? $kros[$kro->kode]->jumlah : 0;
+            $kro->update([
+                'jumlah' => $jumlah
+            ]);
+        }
+
+        $aktivitass = DB::table('kro')
+            ->select('aktivitas_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('aktivitas_id')
+            ->get()->keyBy('id');
+
+        foreach (Aktivitas::all() as $aktivitas) {
+            $jumlah = $aktivitass->has($aktivitas->kode) ? $aktivitass[$aktivitas->kode]->jumlah : 0;
+            $aktivitas->update([
+                'jumlah' => $jumlah
+            ]);
+        }
+
+        $programs = DB::table('aktivitas')
+            ->select('program_id AS id', DB::raw('SUM(jumlah) AS jumlah'))
+            ->groupBy('program_id')
+            ->get()->keyBy('id');
+
+        foreach (Program::all() as $program) {
+            $jumlah = $programs->has($program->kode) ? $programs[$program->kode]->jumlah : 0;
+            $program->update([
+                'jumlah' => $jumlah
+            ]);
+        }
     }
 }

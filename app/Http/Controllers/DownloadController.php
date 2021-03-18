@@ -112,9 +112,7 @@ class DownloadController extends Controller
                 $sheet->setCellValue('I' . $row, $pokitem->deskripsi);
                 $sheet->setCellValue('J' . $row, $pokitem->volume);
                 $sheet->setCellValue('K' . $row, $pokitem->satuan);
-                if ($pokitem->volume && $pokitem->jumlah) {
-                    $sheet->setCellValue('L' . $row, $pokitem->jumlah / $pokitem->volume);
-                }
+                $sheet->setCellValue('L' . $row, $pokitem->harga_satuan);
                 $sheet->setCellValue('M' . $row, $pokitem->jumlah);
 
                 $sheet->setCellValue('N' . $row, $pokitem->jan_rpd);
