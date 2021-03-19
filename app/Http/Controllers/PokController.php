@@ -618,7 +618,7 @@ class PokController extends Controller
             } else if ($type == 'kro') {
                 Ro::where('kode', $childid)->update(['posisi' => $i]);
             } else if ($type == 'ro') {
-                Komponen::where('kode', $childid)->update(['posisi' => $i]);
+                Komponen::where('id', $childid)->update(['posisi' => $i]);
             } else if ($type == 'komponen') {
                 Subkomponen::where('id', $childid)->update(['posisi' => $i]);
             } else if ($type == 'subkomponen') {

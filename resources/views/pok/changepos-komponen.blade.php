@@ -63,7 +63,7 @@
                                         <div class="list-group-item px-0 handle grabbable" style="border: none" draggable="false">
                                             <i class="fa fa-arrows text-danger mr-3"></i>
                                             <span><strong>{{$pokitem->kode}} {{$pokitem->deskripsi}}</strong></span>
-                                            <input type="hidden" id="position[]" name="position[]" value="{{$pokitem->kode}}" />
+                                            <input type="hidden" id="position[]" name="position[]" value="{{$pokitem->id}}" />
                                         </div>
                                         @endforeach
                                     </div>
