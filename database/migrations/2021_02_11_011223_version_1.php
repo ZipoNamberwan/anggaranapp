@@ -79,6 +79,7 @@ class Version1 extends Migration
             $table->integer('posisi');
             $table->string('ro_id');
             $table->foreign('ro_id')->references('kode')->on('ro')->onUpdate('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('komponen');
             $table->timestamps();
             $table->softDeletes();
         });

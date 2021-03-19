@@ -24,4 +24,14 @@ class Komponen extends Model
     {
         return $this->belongsTo(Ro::class, 'ro_id');
     }
+
+    public function children()
+    {
+        return $this->hasMany(Komponen::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Komponen::class);
+    }
 }

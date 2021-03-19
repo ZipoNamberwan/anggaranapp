@@ -25,6 +25,7 @@ class PokController extends Controller
      */
     public function index()
     {
+        //dd(Komponen::find(1)->parent);
         // Ubah nilai $fungsi_id sesuai role, kalau role IPDS berarti $fungsi_id=6
         // kalo role sosial berarti $fungsi_id=2, dan seterusnya, kalo rolenya
         // adalah admin atau role viewer maka isikan nilai $fungsi_id=null 
@@ -701,7 +702,9 @@ class PokController extends Controller
         $ro = $komponen->ro;
         $jumlahro = 0;
         foreach ($ro->komponen as $item) {
-            $jumlahro = $jumlahro + $item->jumlah;
+            if (count($item->children) == 0) {
+                $jumlahro = $jumlahro + $item->jumlah;
+            }
         }
         $ro->update([
             'jumlah' => ($jumlahro),
@@ -733,6 +736,16 @@ class PokController extends Controller
         $program->update([
             'jumlah' => ($jumlahprogram),
         ]);
+
+        if ($komponen->parent) {
+            $jumlah = 0;
+            foreach ($komponen->parent->children as $childkomponen) {
+                $jumlah = $jumlah + $childkomponen->jumlah;
+            }
+            $komponen->parent->update([
+                'jumlah' => $jumlah,
+            ]);
+        }
     }
 
     public function validateAllTree()
@@ -807,6 +820,18 @@ class PokController extends Controller
             $program->update([
                 'jumlah' => $jumlah
             ]);
+        }
+
+        foreach (Komponen::all() as $komponen) {
+            if (count($komponen->children > 0)) {
+                $jumlah = 0;
+                foreach ($komponen->children as $childkomponen) {
+                    $jumlah = $jumlah + $childkomponen->jumlah;
+                }
+                $komponen->update([
+                    'jumlah' => $jumlah,
+                ]);
+            }
         }
     }
 }
