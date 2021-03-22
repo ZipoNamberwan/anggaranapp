@@ -69,14 +69,14 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Satuan</label>
-                                <input type="text" class="form-control" placeholder="Satuan" name="unit"  value="{{old('unit', $pokitem->unit)}}">
+                                <input type="text" class="form-control" placeholder="Satuan" name="unit"  value="{{old('unit', $pokitem->satuan)}}">
                                 @error('unit')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label class="control-label mb-10 text-left">Jumlah</label>
-                                <input id="total" type="text" class="form-control" placeholder="Jumlah" name="total"  value="{{old('total', $pokitem->total)}}">
+                                <input id="total" type="text" class="form-control" placeholder="Jumlah" name="total"  value="{{old('total', $pokitem->jumlah)}}">
                                 @error('total')
                                 <div class="mt-10"><span class="text-danger">{{$message}}</span></div>
                                 @enderror

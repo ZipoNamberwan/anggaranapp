@@ -204,13 +204,17 @@ class PokController extends Controller
             return redirect('/pok')->with('success-create', 'RO telah ditambah!');
         } else if ($request->create_type == 'komponen') {
             $pos = count(Komponen::where(['ro_id' => $request->parent_id])->get());
-            Komponen::create([
+            $komponenUpdateArray = array(
                 'kode' => $request->id,
                 'deskripsi' => $request->name,
                 'jumlah' => $request->total,
                 'ro_id' => $request->parent_id,
-                'posisi' => $pos
-            ]);
+                'posisi' => $pos,
+            );
+            if ($request->has_parent) {
+                $komponenUpdateArray['parent_id'] = $request->komponen_parent;
+            }
+            Komponen::create($komponenUpdateArray);
             return redirect('/pok')->with('success-create', 'Komponen telah ditambah!');
         } else if ($request->create_type == 'subkomponen') {
             $pos = count(Subkomponen::where(['komponen_id' => $request->parent_id])->get());
@@ -486,11 +490,17 @@ class PokController extends Controller
             ]);
             return redirect('/pok')->with('success-create', 'RO telah diubah!');
         } else if ($request->create_type == 'komponen') {
-            Komponen::find($id)->update([
+            $komponenUpdateArray = array(
                 'kode' => $request->id,
                 'deskripsi' => $request->name,
                 'jumlah' => $request->total,
-            ]);
+            );
+            if ($request->has_parent) {
+                $komponenUpdateArray['parent_id'] = $request->komponen_parent;
+            } else {
+                $komponenUpdateArray['parent_id'] = null;
+            }
+            Komponen::find($id)->update($komponenUpdateArray);
             return redirect('/pok')->with('success-create', 'Komponen telah diubah!');
         } else if ($request->create_type == 'subkomponen') {
             Subkomponen::find($id)->update([
